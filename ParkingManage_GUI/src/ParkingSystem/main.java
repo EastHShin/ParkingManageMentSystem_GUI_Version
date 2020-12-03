@@ -3,6 +3,7 @@ package ParkingSystem;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class main {
 
@@ -16,7 +17,7 @@ public class main {
 		         frame.setVisible(true);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 			}
 	         
 	      });

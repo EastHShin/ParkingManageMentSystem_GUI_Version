@@ -45,7 +45,7 @@ public class ParkingMFrame extends JFrame {
 		panel2.add(btn5);
 		add(panel1, layout.NORTH);
 		add(panel2, layout.CENTER);
-		setSize(500,300);
+		pack();
 		btn1.addActionListener(
 				event -> {
 					typeOfvehicle = '\0';
@@ -55,27 +55,30 @@ public class ParkingMFrame extends JFrame {
 					strNum = null;
 					dialog1 = new VehicleInfo();
 					dialog1.showDialog(ParkingMFrame.this, "입차");
+					try {
 					typeOfvehicle = dialog1.getVehicleType().charAt(0);
 					num = Integer.parseInt(dialog1.getsize());
 					strNum = dialog1.getVehicleNum();
 					date = dialog1.gettime();
 					if(!RightType(typeOfvehicle) || strNum.length() != 4) {
-						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					}
 					else {
-						try {
+						
 							vehiNum = Integer.parseInt(strNum);
 							SimpleDateFormat fm = new SimpleDateFormat("yyyy MM dd HH mm");
 							Date to = fm.parse(date);
 							if(p.existNum(vehicle, vehiNum) || !rightTime(date))
-								JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
+								JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 							else
 								insert(vehicle, typeOfvehicle, num, vehiNum, to);
-						}catch(NumberFormatException e) {
-							JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
-						}catch(ParseException e) {
-							JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
-						}
+					}
+					}catch(NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+					}catch(ParseException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.","ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+					}catch(StringIndexOutOfBoundsException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.","ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				});
@@ -86,25 +89,27 @@ public class ParkingMFrame extends JFrame {
 					strNum = null;
 					dialog2 = new outVehicleInfo();
 					dialog2.showDialog(ParkingMFrame.this, "출차");
+					try {
 					strNum = dialog2.getVehicleNum();
 					date = dialog2.gettime();
 					if(strNum.length() != 4) {
-						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					}
 					else {
-						try {
 							vehiNum = Integer.parseInt(strNum);
 							SimpleDateFormat fm = new SimpleDateFormat("yyyy MM dd HH mm");
 							Date to = fm.parse(date);
 							if(!rightTime(date))
-								JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
+								JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 							else
 								p.findVehicleNum(vehicle, vehiNum, to);
-						}catch(NumberFormatException e) {
-							JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
-						}catch(ParseException e) {
-							JOptionPane.showMessageDialog(null, "잘못된 입력입니다.");
-						}
+					}
+					}catch(NumberFormatException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+					}catch(ParseException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+					}catch(StringIndexOutOfBoundsException e) {
+						JOptionPane.showMessageDialog(null, "잘못된 입력입니다.","ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					}
 				});
 		btn3.addActionListener(
@@ -139,7 +144,7 @@ public class ParkingMFrame extends JFrame {
 			vehicle[i++] = new Truc(num, vehiNum, to);
 		}
 		}catch(ArrayIndexOutOfBoundsException e) {
-			JOptionPane.showMessageDialog(null, "주차장이 꽉 찼습니다.");
+			JOptionPane.showMessageDialog(null, "주차장이 꽉 찼습니다.", "WARNING_MESSAGE", JOptionPane.WARNING_MESSAGE);
 			i--;
 			return;
 		}
@@ -166,38 +171,38 @@ public class ParkingMFrame extends JFrame {
 		hour = Integer.parseInt(splitArr[3]);
 		minute = Integer.parseInt(splitArr[4]);
 		if(hour > 24 || minute > 59) {
-			JOptionPane.showMessageDialog(null, "시간이 올바르지 않습니다.");
+			JOptionPane.showMessageDialog(null, "시간이 올바르지 않습니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		switch(exceptMonth) {
 		case 1: case 3: case 5: case 7: case 8: case 10: case 12:
 			if(exceptdate > 31) {
-				JOptionPane.showMessageDialog(null, "이 달은 31일까지 입니다.");
+				JOptionPane.showMessageDialog(null, "이 달은 31일까지 입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			break;
 		case 4: case 6: case 11:
 			if(exceptdate > 30) {
-				JOptionPane.showMessageDialog(null, "이 달은 30일까지 입니다.");
+				JOptionPane.showMessageDialog(null, "이 달은 30일까지 입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
 			break;
 		case 2:
 			if(gr.isLeapYear(exceptMonth)) {
 				if(exceptdate > 29) {
-					JOptionPane.showMessageDialog(null, "이 달은 29일까지 입니다.");
+					JOptionPane.showMessageDialog(null, "이 달은 29일까지 입니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
 			}
 			else {
 				if(exceptdate > 28) {
-					JOptionPane.showMessageDialog(null, "이 달은 28일까지 입니다.");
+					JOptionPane.showMessageDialog(null, "이 달은 28일까지 입니다.","ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 					return false;
 				}
 			}
 			break;
 		default:
-			JOptionPane.showMessageDialog(null, "1월~12월까지만 입력 가능합니다.");
+			JOptionPane.showMessageDialog(null, "1월~12월까지만 입력 가능합니다.","ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
